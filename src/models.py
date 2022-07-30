@@ -11,6 +11,30 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class Character(Base):
+    __tablename__ = "character"
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    haircolor = Column(String)
+    eyecolor = Column(String)
+
+class Planet(Base):
+    __tablename__ = 'planet'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    climate = Column(String)
+    
+
+class Favorites(Base):
+    __tablename__ = "favorite"
+    id = Column(Integer, primary_key=True)
+    character = relationship(Character)
+    character_id = Column(Integer, ForeignKey("character.id"), nullable=True)
+    planet = relationship(Planet)
+    planet_id = Column(Integer, ForeignKey('planet.id'), nullable=True)
+    user = relationship(User)
+    user_id = Column(Integer, ForeignKey("user.id"))c
+
     def serialize(self):
         return {
             "id": self.id,
